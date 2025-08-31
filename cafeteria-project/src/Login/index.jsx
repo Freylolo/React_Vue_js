@@ -36,8 +36,9 @@ export default function Login() {
   };
 
    return (
-  <div className="bg-white p-10 rounded-xl shadow-md w-full max-w-md">
-    <h2 className="text-3xl font-extrabold text-center text-black-700 mb-8">Login</h2>
+  <div className="flex items-center justify-center min-h-screen bg-gray-100">
+  <div className="bg-white p-10 rounded-xl shadow-lg w-full max-w-md">
+    <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-8">Login</h2>
     <form onSubmit={login}>
       <div className="mb-6">
         <label className="block text-black font-bold mb-2">Usuario</label>
@@ -62,6 +63,7 @@ export default function Login() {
       </button>
     </form>
     {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+  </div>
   </div>
 
   );
