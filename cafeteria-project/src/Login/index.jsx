@@ -24,7 +24,6 @@ export default function Login() {
       const data = await response.text();
       console.log("Login exitoso:", data);
 
-      // Guardar credenciales en localStorage
       localStorage.setItem("auth", btoa(`${username}:${password}`));
       setError("");
 
