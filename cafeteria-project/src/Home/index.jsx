@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Header from "../components/Header.jsx";
 
 export default function Home() {
   const [productos, setProductos] = useState([]);
@@ -134,6 +135,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+      <Header></Header>
+      <br></br>
       <div className="mb-6">
         <h1 className="text-4xl font-extrabold text-black text-center mb-4">
           Lista de Productos
