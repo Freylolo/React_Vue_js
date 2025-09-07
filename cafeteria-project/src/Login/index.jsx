@@ -28,7 +28,7 @@ export default function Login() {
     const encoded = btoa(`${email}:${password}`);
     
     localStorage.setItem("auth", encoded);
-    localStorage.setItem("role", data.role);  // Ahora sí traemos el rol real
+    localStorage.setItem("role", data.role); 
     localStorage.setItem("email", data.email);
 
     console.log("Usuario logueado (auth):", encoded);
