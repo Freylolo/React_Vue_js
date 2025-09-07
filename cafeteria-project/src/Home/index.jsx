@@ -14,8 +14,11 @@ export default function Home() {
   const [modalCrearOpen, setModalCrearOpen] = useState(false);
   const [crearNombre, setCrearNombre] = useState("");
   const [crearPrecio, setCrearPrecio] = useState("");
+  
 
   const auth = localStorage.getItem("auth");
+  const role = localStorage.getItem("role");
+
 
   const fetchProductos = async () => {
     try {
@@ -116,7 +119,7 @@ export default function Home() {
         body: JSON.stringify({
           nombre: crearNombre,
           precio: parseFloat(crearPrecio),
-          disponible: true, // por defecto disponible
+          disponible: true,
         }),
       });
       if (!response.ok) throw new Error("Error al crear producto");
@@ -143,12 +146,14 @@ export default function Home() {
         </h1>
         {auth && (
           <div className="flex justify-end">
+            {role === "ADMIN" && (
             <button
               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 hover:scale-105 transition transform font-semibold"
               onClick={() => setModalCrearOpen(true)}
             >
               Nuevo Producto
             </button>
+            )}
           </div>
         )}
       </div>
@@ -191,24 +196,31 @@ export default function Home() {
 
             {auth && (
               <div className="flex gap-2">
+                 {role === "ADMIN" && (
                 <button
                   className="bg-blue-400 text-white px-2 py-2 rounded-lg hover:bg-blue-500 hover:scale-105 transition transform font-semibold"
                   onClick={() => toggleDisponible(p.id, p.disponible)}
                 >
                   {p.disponible ? "Marcar No Disponible" : "Marcar Disponible"}
                 </button>
+                )}
+
+                {role === "ADMIN" && (
                 <button
                   className="bg-yellow-300 text-white px-2 py-2 rounded-lg hover:bg-yellow-600 hover:scale-105 transition transform font-semibold"
                   onClick={() => abrirModalEditar(p)}
                 >
                   Editar
                 </button>
+                )}
+                {role === "ADMIN" && (
                 <button
                   className="bg-red-500 text-white px-2 py-2 rounded-lg hover:bg-red-600 hover:scale-105 transition transform font-semibold"
                   onClick={() => eliminarProducto(p.id)}
                 >
                   Eliminar
                 </button>
+                )}
               </div>
             )}
           </div>

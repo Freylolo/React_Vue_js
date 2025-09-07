@@ -3,6 +3,7 @@ import calicoLogo from "../assets/calico.png";
 
 export default function Header() {
   const navigate = useNavigate();
+  const role = localStorage.getItem("role");
 
   const logout = () => {
     localStorage.removeItem("auth");
@@ -23,20 +24,22 @@ export default function Header() {
         >
           Home
         </Link>
+        {role === "ADMIN" && (
         <Link
           to="/clientes"
           className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-200 hover:text-blue-800 transition"
         >
           Clientes
         </Link>
+            )}
+        {role === "ADMIN" && (
         <Link
           to="/ordenes"
           className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-200 hover:text-blue-800 transition"
         >
           Órdenes
         </Link>
-
-        {/* Botón cerrar sesión */}
+            )}
         <button
           onClick={logout}
           className="px-3 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition"

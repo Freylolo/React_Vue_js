@@ -4,6 +4,7 @@ import Login from './Login/index.jsx';
 import Home from './Home/index.jsx';
 import Clientes from './Clientes/index.jsx';
 import Ordenes from './Ordenes/index.jsx';
+import Register from './register/index.jsx';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
       <Route path="/clientes" element={<Clientes />} />
       <Route path="/home" element={<Home />} />
       <Route path="/ordenes" element={<Ordenes />} />
+      <Route path="/registro" element={<Register />} />
     </Routes>
   );
 }

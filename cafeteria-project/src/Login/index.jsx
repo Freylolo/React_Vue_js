@@ -1,39 +1,47 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link  } from "react-router-dom";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const login = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const headers = new Headers();
-    headers.set("Authorization", "Basic " + btoa(`${username}:${password}`));
+  if (!email || !password) {
+    setError("Ingresa email y contraseña");
+    return;
+  }
 
-    try {
-      const response = await fetch("http://localhost:8080/api/clientes/test", {
-        method: "GET",
-        headers,
-      });
+  try {
+    const response = await fetch("http://localhost:8080/api/users/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-      if (!response.ok) throw new Error("Usuario o contraseña incorrectos");
+    if (!response.ok) throw new Error("Usuario o contraseña incorrectos");
 
-      const data = await response.text();
-      console.log("Login exitoso:", data);
+    const data = await response.json();
+    const encoded = btoa(`${email}:${password}`);
+    
+    localStorage.setItem("auth", encoded);
+    localStorage.setItem("role", data.role);  // Ahora sí traemos el rol real
+    localStorage.setItem("email", data.email);
 
-      localStorage.setItem("auth", btoa(`${username}:${password}`));
-      setError("");
+    console.log("Usuario logueado (auth):", encoded);
+    console.log("Rol del usuario:", data.role);
 
-      alert("Login exitoso");
+    setError("");
+    alert("Login exitoso");
+    navigate("/home");
+  } catch (err) {
+    setError(err.message);
+  }
+};
 
-      navigate("/home");
-    } catch (err) {
-      setError(err.message);
-    }
-  };
 
    return (
   <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -41,12 +49,12 @@ export default function Login() {
     <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-8">Login</h2>
     <form onSubmit={login}>
       <div className="mb-6">
-        <label className="block text-black font-bold mb-2">Usuario</label>
+        <label className="block text-black font-bold mb-2">Correo</label>
         <input
           type="text"
           className="w-full border border-gray-400 bg-gray-50 text-black p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="mb-6">
@@ -63,6 +71,15 @@ export default function Login() {
       </button>
     </form>
     {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+     <p className="mt-4 text-center text-gray-700">
+          ¿No tienes cuenta?{" "}
+          <Link
+            to="/registro"
+            className="text-blue-500 hover:underline font-semibold"
+          >
+            Crear usuario
+          </Link>
+        </p>
   </div>
   </div>
 
